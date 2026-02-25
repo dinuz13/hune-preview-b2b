@@ -111,6 +111,11 @@ function baseFileKey(u) {
 async function fetchHune(huneUrl) {
   const html = await fetchHtml(huneUrl);
   const $ = cheerio.load(html);
+    // Quitar CSP del sitio origen (si viene como meta) para que no bloquee imgs de hune.eco
+    $('meta[http-equiv="Content-Security-Policy"]').remove();
+    $('meta[http-equiv="content-security-policy"]').remove();
+    // (opcional) quitar <base> si existe, por si rompe URLs
+    $('base').remove();
   const p = findJsonLdProduct($);
 
   const title = (p?.name || $('meta[property="og:title"]').attr("content") || $("title").first().text() || "HUNE Product").trim();
@@ -297,6 +302,11 @@ $("script").remove();
     await browser.close();
 
     const $ = cheerio.load(html);
+    // Quitar CSP del sitio origen (si viene como meta) para que no bloquee imgs de hune.eco
+    $('meta[http-equiv="Content-Security-Policy"]').remove();
+    $('meta[http-equiv="content-security-policy"]').remove();
+    // (opcional) quitar <base> si existe, por si rompe URLs
+    $('base').remove();
 injectToolbar($, clientUrl);
     $("script").remove();
     $('link[rel="modulepreload"]').remove();
