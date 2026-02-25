@@ -1,42 +1,53 @@
 <!doctype html>
-<html lang="es">
+<html>
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>HUNE B2B Preview (Modo B)</title>
+  <title>HUNE B2B Preview</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body{font-family:Arial;margin:0;background:#0b0f14;color:#e6e6e6}
-    .wrap{max-width:860px;margin:60px auto;padding:0 20px}
-    .card{background:#121a23;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:20px}
-    input{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:#0b0f14;color:#e6e6e6;margin-top:8px}
-    button{margin-top:14px;width:100%;padding:14px;border:0;border-radius:12px;background:#009bb5;color:#fff;font-weight:900;cursor:pointer}
-    .err{margin-top:12px;background:rgba(255,82,82,.12);border:1px solid rgba(255,82,82,.35);padding:10px 12px;border-radius:12px}
-    .hint{opacity:.75;font-size:12px;margin-top:10px;line-height:1.4}
-    label{font-weight:800}
+    body{font-family:Arial;max-width:900px;margin:40px auto;line-height:1.4;padding:0 16px}
+    .row{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+    .btn{padding:10px 12px;border-radius:10px;border:1px solid #ddd;background:#fff;cursor:pointer;font-weight:700}
+    .btn.primary{background:#009bb5;color:#fff;border:0}
+    input{width:100%;padding:10px;margin:6px 0 14px;border:1px solid #ddd;border-radius:10px}
+    small{color:#666}
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="card">
-      <h1 style="margin:0 0 10px;">HUNE B2B Preview (Modo B)</h1>
-      <p style="opacity:.85;margin:0 0 14px;">Pegá una PDP del cliente + una PDP de Hune. Generamos preview en el layout del cliente + screenshot.</p>
+  <h2>HUNE B2B Preview</h2>
 
-      <form method="POST" action="/generate">
-        <label>URL PDP Cliente (ejemplo)</label>
-        <input name="clientUrl" placeholder="https://cliente.com/products/..." required />
+  <div class="row">
+    <form method="POST" action="/generate">
+      <input type="hidden" name="clientUrl" value="<%= clientDefault %>">
+      <input type="hidden" name="huneUrl" value="https://www.hune.eco/products/halcon-w10">
+      <button class="btn" type="submit">Halcon W10</button>
+    </form>
 
-        <label style="display:block;margin-top:14px;">URL PDP Hune</label>
-        <input name="huneUrl" placeholder="https://www.hune.eco/products/haba-tws-sport" required />
+    <form method="POST" action="/generate">
+      <input type="hidden" name="clientUrl" value="<%= clientDefault %>">
+      <input type="hidden" name="huneUrl" value="https://www.hune.eco/collections/auriculares/products/flora">
+      <button class="btn" type="submit">Flora</button>
+    </form>
 
-        <button type="submit">Generar preview</button>
-      </form>
-
-      <% if (error) { %><div class="err"><b>Error:</b> <%= error %></div><% } %>
-
-      <div class="hint">
-        Nota: algunas webs bloquean bots o tienen estructuras raras. En esos casos, el próximo paso es permitir “selectores override” por sitio.
-      </div>
-    </div>
+    <form method="POST" action="/generate">
+      <input type="hidden" name="clientUrl" value="<%= clientDefault %>">
+      <input type="hidden" name="huneUrl" value="https://www.hune.eco/collections/cargadores/products/huron-65w">
+      <button class="btn" type="submit">Huron 65W</button>
+    </form>
   </div>
+
+  <hr style="border:0;border-top:1px solid #eee;margin:18px 0">
+
+  <form method="POST" action="/generate">
+    <label><b>Cliente PDP</b></label><br/>
+    <input name="clientUrl" required value="<%= clientDefault %>" />
+
+    <label><b>Hune PDP</b></label><br/>
+    <input name="huneUrl" required value="<%= huneDefault %>" />
+
+    <button class="btn primary" type="submit" style="width:100%">Generar</button>
+  </form>
+
+  <p><small>Tip: si en Render dice “Playwright disabled…”, igual te genera HTML, solo que sin screenshot.</small></p>
 </body>
 </html>
