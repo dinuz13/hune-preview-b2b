@@ -2,8 +2,12 @@ require("dotenv").config();
 const express = require("express");
 const fetch = require("node-fetch");
 const cheerio = require("cheerio");
-const { chromium } = require("playwright");
+const USE_PLAYWRIGHT = process.env.USE_PLAYWRIGHT === "1";
 
+let chromium = null;
+if (USE_PLAYWRIGHT) {
+  ({ chromium } = require("playwright"));
+}
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 
@@ -232,7 +236,14 @@ async function generatePreview(req, res, clientUrl, huneUrl) {
   try {
     const p = await fetchHune(huneUrl);
 
-    const browser = await chromium.launch({ headless: true, args: ["--no-sandbox"] });
+    if (!USE_PLAYWRIGHT) {
+  return res.send("Playwright disabled on this environment.");
+}
+
+const browser = await chromium.launch({
+  headless: true,
+  args: ["--no-sandbox", "--disable-setuid-sandbox"]
+});
     const page = await browser.newPage({ viewport: { width: 1280, height: 720 } });
 
     console.log(">>> goto", clientUrl);
