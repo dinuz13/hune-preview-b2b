@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>HUNE B2B Preview (Modo B)</title>
+  <style>
+    body{font-family:Arial;margin:0;background:#0b0f14;color:#e6e6e6}
+    .wrap{max-width:860px;margin:60px auto;padding:0 20px}
+    .card{background:#121a23;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:20px}
+    input{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:#0b0f14;color:#e6e6e6;margin-top:8px}
+    button{margin-top:14px;width:100%;padding:14px;border:0;border-radius:12px;background:#009bb5;color:#fff;font-weight:900;cursor:pointer}
+    .err{margin-top:12px;background:rgba(255,82,82,.12);border:1px solid rgba(255,82,82,.35);padding:10px 12px;border-radius:12px}
+    .hint{opacity:.75;font-size:12px;margin-top:10px;line-height:1.4}
+    label{font-weight:800}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1 style="margin:0 0 10px;">HUNE B2B Preview (Modo B)</h1>
+      <p style="opacity:.85;margin:0 0 14px;">Pegá una PDP del cliente + una PDP de Hune. Generamos preview en el layout del cliente + screenshot.</p>
+
+      <form method="POST" action="/generate">
+        <label>URL PDP Cliente (ejemplo)</label>
+        <input name="clientUrl" placeholder="https://cliente.com/products/..." required />
+
+        <label style="display:block;margin-top:14px;">URL PDP Hune</label>
+        <input name="huneUrl" placeholder="https://www.hune.eco/products/haba-tws-sport" required />
+
+        <button type="submit">Generar preview</button>
+      </form>
+
+      <% if (error) { %><div class="err"><b>Error:</b> <%= error %></div><% } %>
+
+      <div class="hint">
+        Nota: algunas webs bloquean bots o tienen estructuras raras. En esos casos, el próximo paso es permitir “selectores override” por sitio.
+      </div>
+    </div>
+  </div>
+</body>
+</html>
